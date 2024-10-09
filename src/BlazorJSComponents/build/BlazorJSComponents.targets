@@ -1,0 +1,41 @@
+<Project>
+
+  <PropertyGroup>
+    <_ComputeCallerFileNamePrefixAssemblyPath Condition="'$(_ComputeCallerFileNamePrefixAssemblyPath)' == ''">$(MSBuildThisFileDirectory)..\tools\netstandard2.0\any\BlazorJSComponents.Tasks.dll</_ComputeCallerFileNamePrefixAssemblyPath>
+  </PropertyGroup>
+
+  <UsingTask
+    TaskName="BlazorJSComponents.Tasks.ComputeCallerFileNamePrefix"
+    AssemblyFile="$(_ComputeCallerFileNamePrefixAssemblyPath)" />
+
+  <Target
+    Name="_ComputeCallerFileNamePrefix"
+    DependsOnTargets="InitializeSourceRootMappedPaths"
+    Condition="'$(SourceControlInformationFeatureSupported)' == 'true'">
+
+    <ComputeCallerFileNamePrefix SourceRoot="@(SourceRoot)" ProjectDir="$(ProjectDir)">
+      <Output TaskParameter="CallerFileNamePrefix" PropertyName="_CallerFileNamePrefix" />
+    </ComputeCallerFileNamePrefix>
+
+  </Target>
+
+  <Target
+    Name="_EmbedAssemblyStaticAssetInfo" 
+    BeforeTargets="PrepareForBuild"
+    DependsOnTargets="_ComputeCallerFileNamePrefix;ResolveStaticWebAssetsConfiguration">
+
+    <PropertyGroup>
+      <_StaticWebAssetEndpointBasePath Condition="'$(OutputType)' != 'Exe'">$(StaticWebAssetBasePath)</_StaticWebAssetEndpointBasePath>
+      <_CallerFileNamePrefix Condition="'$(_CallerFileNamePrefix)' == ''">$(ProjectDir)</_CallerFileNamePrefix>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <AssemblyAttribute Include="BlazorJSComponents.AssemblyCollocatedJSAttribute">
+        <_Parameter1>$(_CallerFileNamePrefix)</_Parameter1>
+        <_Parameter2>$(_StaticWebAssetEndpointBasePath)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+
+  </Target>
+
+</Project>

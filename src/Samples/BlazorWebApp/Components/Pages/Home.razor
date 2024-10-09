@@ -1,0 +1,24 @@
+﻿@page "/"
+@attribute [DiscoverCollocatedJS]
+
+<PageTitle>Home</PageTitle>
+
+<h1>Home</h1>
+
+<JS Key="Home" For="this" Args="[s_renderId, true, _complexObject]" />
+
+@code {
+    private static int s_renderId = 0;
+
+    protected override void OnInitialized()
+    {
+        s_renderId++;
+    }
+
+    private readonly MyComplexType _complexObject = new() { Value = "world" };
+
+    private class MyComplexType
+    {
+        public string? Value { get; set; }
+    }
+}

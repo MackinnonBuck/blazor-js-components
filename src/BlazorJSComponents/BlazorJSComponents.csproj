@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PackageId>BlazorJSComponents</PackageId>
+    <IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>MackinnonBuck</Authors>
+    <Version>0.1.0-preview.1</Version>
+    <RepositoryUrl>https://github.com/MackinnonBuck/blazor-js-components.git</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0-rc.1.24452.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\BlazorJSComponents.Tasks\bin\$(Configuration)\netstandard2.0\*.dll">
+      <Pack>true</Pack>
+      <PackagePath>tools\netstandard2.0\any</PackagePath>
+      <Visible>false</Visible>
+    </None>
+    <None Include="build\BlazorJSComponents.targets">
+      <Pack>true</Pack>
+      <PackagePath>%(Identity)</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,55 @@
+﻿@page "/form-submit"
+@using System.ComponentModel.DataAnnotations
+@inject ILogger<FormSubmit> Logger
+
+<EditForm Model="Model" OnValidSubmit="OnValidSubmit" FormName="FormSubmit" Enhance>
+    <DataAnnotationsValidator />
+    <JSDataAnnotationsValidator />
+    <ValidationSummary />
+    <label>
+        Identifier:
+        <InputText @bind-Value="Model!.Id" />
+    </label>
+    <br />
+    <label>
+        Engine count:
+        <InputNumber @bind-Value="Model!.EngineCount" />
+    </label>
+    <br />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if (_isValidSubmit)
+{
+    <p>
+        Successfully submitted starship "@(Model?.Id)"!
+    </p>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private Starship? Model { get; set; }
+
+    private bool _isValidSubmit;
+
+    protected override void OnInitialized() => Model ??= new()
+    {
+        Id = "Default",
+    };
+
+    private void OnValidSubmit()
+    {
+        _isValidSubmit = true;
+    }
+
+    public class Starship
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Id is too long.")]
+        public string? Id { get; set; }
+
+        [Required]
+        [Range(1, 10)]
+        public int EngineCount { get; set; }
+    }
+}

@@ -1,0 +1,53 @@
+﻿@using NJsonSchema
+@using System.Text.Json.Serialization
+@using System.Text.Json
+@inject JSElementReferenceScope Refs
+
+@if (_isSsrOnly)
+{
+    <ul data-ref="@Refs["validationErrorList"]" class="validation-errors"></ul>
+    <JS Src="./data-annotations-validator.js" Args="[Refs, _modelSchema]" />
+}
+
+@code {
+    private ModelSchema _modelSchema;
+    private bool _isSsrOnly;
+
+    [CascadingParameter] private EditContext CurrentEditContext { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        if (CurrentEditContext is null)
+        {
+            throw new InvalidOperationException($"{nameof(JSDataAnnotationsValidator)} requires a cascading " +
+                $"parameter of type {nameof(EditContext)}. For example, you can use {nameof(JSDataAnnotationsValidator)} " +
+                $"inside an EditForm.");
+        }
+
+        _isSsrOnly = !RendererInfo.IsInteractive && AssignedRenderMode is null;
+        if (_isSsrOnly)
+        {
+            var jsonSchema = JsonSchema.FromType(CurrentEditContext.Model.GetType());
+            _modelSchema = new(jsonSchema);
+        }
+    }
+
+    [JsonConverter(typeof(ModelSchemaJsonConverter))]
+    private readonly struct ModelSchema(JsonSchema schema)
+    {
+        public JsonSchema Schema { get; } = schema;
+    }
+
+    private sealed class ModelSchemaJsonConverter : JsonConverter<ModelSchema>
+    {
+        public override ModelSchema Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Write(Utf8JsonWriter writer, ModelSchema value, JsonSerializerOptions options)
+        {
+            writer.WriteRawValue(value.Schema.ToJson(Newtonsoft.Json.Formatting.None));
+        }
+    }
+}
