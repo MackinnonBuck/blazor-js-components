@@ -159,7 +159,7 @@ Here, we define a JS component that maintains its own state (the `currentCount`)
 > 1. It ensures that the component only has one listener for a given element and event. Calling `setEventListener()` multiple times on same element/event combination overwrites the previous event listener.
 > 2. Upon component disposal, the event listener is automatically removed.
 
-Let's update the Blazor component render the JS component and pass arguments to it:
+Let's update the Blazor component to render the JS component and pass arguments to it:
 
 ```razor
 @page "/counter"
