@@ -5,7 +5,6 @@ const jsComponentsById = {};
 const jsComponentIdsByKey = {};
 const jsComponentTypesBySrc = {};
 
-//const jsElementReferenceCollectionKey = "__jsElemRefCollectionId";
 const jsElementReferenceScopeKey = "__jsScope";
 
 async function importJSComponent(src) {
