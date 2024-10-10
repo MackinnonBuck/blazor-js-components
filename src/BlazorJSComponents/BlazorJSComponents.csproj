@@ -27,7 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\BlazorJSComponents.Tasks\bin\$(Configuration)\netstandard2.0\*.dll">
+    <_BlazorJSComponentsTasksAssemblies Include="..\BlazorJSComponents.Tasks\bin\$(Configuration)\netstandard2.0\*.dll" />
+    <None Include="@(_BlazorJSComponentsTasksAssemblies)">
       <Pack>true</Pack>
       <PackagePath>tools\netstandard2.0\any</PackagePath>
       <Visible>false</Visible>
@@ -37,5 +38,11 @@
       <PackagePath>%(Identity)</PackagePath>
     </None>
   </ItemGroup>
+
+  <Target Name="_ValidateBlazorJSComponentsTasksAssembliesDiscovered" AfterTargets="AfterBuild">
+    <Error
+      Text="The BlazorJSComponents.Tasks project must be built in the '$(Configuration)' configuration"
+      Condition="'@(_BlazorJSComponentsTasksAssemblies)' == ''" />
+  </Target>
 
 </Project>
