@@ -5,7 +5,12 @@
 
 <h1>Home</h1>
 
-<JS Key="Home" For="this" Args="[s_renderId, true, _complexObject]" />
+<p>
+    This page demonstrates how the 'JS' component can both import simple scripts and pass complex arguments to JS components.
+</p>
+
+<JS Src="./hello-world.js" />
+<JS For="this" Args="[s_renderId, true, _complexObject]" />
 
 @code {
     private static int s_renderId = 0;

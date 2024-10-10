@@ -1,0 +1,22 @@
+@attribute [DiscoverCollocatedJS]
+@inject JSElementReferenceScope Refs
+
+<h3>JS Counter</h3>
+
+<button data-ref="@Refs["button"]">Click me!</button>
+<span data-ref="@Refs["count"]">Current count: 0</span>
+<JS For="this" Args="[Refs]" />
+
+<h3>.NET Counter</h3>
+
+<button @onclick="IncrementCount">Click me!</button>
+<span>Current count: @_currentCount</span>
+
+@code {
+    private int _currentCount = 0;
+
+    private void IncrementCount()
+    {
+        _currentCount++;
+    }
+}

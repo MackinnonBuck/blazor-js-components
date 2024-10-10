@@ -40,7 +40,7 @@ public sealed class JS : IComponent, IHandleAfterRender, IJSObjectReference, IAs
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The declaration for the target component must include a <see cref="DiscoverCollocatedJSAttribute"/> attribute
+    /// The declaration for the type of the target component must include a <see cref="DiscoverCollocatedJSAttribute"/> attribute
     /// in its <c>.razor</c> file.
     /// </para>
     /// <para>
@@ -91,8 +91,8 @@ public sealed class JS : IComponent, IHandleAfterRender, IJSObjectReference, IAs
                 : new StaticJSHandler(
                     src,
                     Key,
-                    UniqueIdAllocator.GetNextId(),
                     mayBecomeInteractive: _renderHandle.RenderMode is not null,
+                    UniqueIdAllocator,
                     jsonSerializerOptions: JSComponentManager.JsonSerializerOptions);
 
             static InvalidOperationException MustSpecifyEitherSrcOrFor()

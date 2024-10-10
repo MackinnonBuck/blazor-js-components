@@ -1,19 +1,44 @@
 ﻿@page "/counter"
-@rendermode InteractiveAuto
+@rendermode InteractiveWebAssembly
+@attribute [DiscoverCollocatedJS]
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
+<p>
+    This component demonstrates how JS components with a Key preserve
+    their state in the transition to .NET interactivity
+    (see the dev console).
+</p>
+
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<JS For="this" Args="[currentCount]" @ref="_jsWithoutKey" />
+<JS Key="Counter" For="this" Args="[currentCount]" @ref="_jsWithKey" />
+
 @code {
+    JS? _jsWithoutKey;
+    JS? _jsWithKey;
+
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var idWithoutKey = await _jsWithoutKey!.InvokeAsync<int>("getId");
+            var idWithKey = await _jsWithKey!.InvokeAsync<int>("getId");
+
+            Console.WriteLine($"{idWithoutKey}: NO KEY");
+            Console.WriteLine($"{idWithKey}: HAS KEY");
+        }
     }
 }

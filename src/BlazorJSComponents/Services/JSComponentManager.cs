@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Metadata;
@@ -11,13 +12,12 @@ internal sealed class JSComponentManager
     private readonly ConcurrentDictionary<Type, string> _componentCollocatedJSPathCache = [];
     private readonly ConcurrentDictionary<Assembly, AssemblyCollocatedJSAttribute?> _assemblyCollocatedJSAttributeCache = [];
 
-    // TODO: Make these options configurable.
-    public JsonSerializerOptions JsonSerializerOptions { get; } = new()
-    {
-    };
+    public JsonSerializerOptions JsonSerializerOptions { get; }
 
-    public JSComponentManager()
+    public JSComponentManager(IOptions<JSComponentOptions> options)
     {
+        JsonSerializerOptions = options.Value.JsonSerializerOptions;
+
         if (MetadataUpdater.IsSupported)
         {
             BlazorJSComponentsMetadataUpdateHandler.TrackJSComponentManager(this);
@@ -65,7 +65,7 @@ internal sealed class JSComponentManager
         return collocatedJSFilePath;
     }
 
-    internal void ClearCache(Type[]? updatedTypes)
+    public void ClearCache(Type[]? updatedTypes)
     {
         if (updatedTypes is null)
         {

@@ -25,7 +25,7 @@
     DependsOnTargets="_ComputeCallerFileNamePrefix;ResolveStaticWebAssetsConfiguration">
 
     <PropertyGroup>
-      <_StaticWebAssetEndpointBasePath Condition="'$(OutputType)' != 'Exe'">$(StaticWebAssetBasePath)</_StaticWebAssetEndpointBasePath>
+      <_StaticWebAssetEndpointBasePath Condition="'$(OutputType)' != 'Exe'">$(StaticWebAssetBasePath)/</_StaticWebAssetEndpointBasePath>
       <_CallerFileNamePrefix Condition="'$(_CallerFileNamePrefix)' == ''">$(ProjectDir)</_CallerFileNamePrefix>
     </PropertyGroup>
 

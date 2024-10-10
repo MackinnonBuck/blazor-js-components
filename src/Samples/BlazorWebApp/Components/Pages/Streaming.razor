@@ -1,0 +1,34 @@
+﻿@page "/streaming"
+@attribute [StreamRendering, DiscoverCollocatedJS]
+@inject JSElementReferenceScope Refs
+
+<p>
+    This page shows how JS components can react to streaming updates while preserving state.
+</p>
+
+<JS Key="Streaming" For="this" Args="[Refs]" />
+
+@for (var i = 0; i < _itemCount; i++)
+{
+    <p data-ref="@Refs[$"item-{i}"]">.NET content</p>
+}
+
+@code {
+    int _itemCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        while (true)
+        {
+            await Task.Delay(1000);
+            _itemCount++;
+
+            if (_itemCount >= 5)
+            {
+                break;
+            }
+
+            StateHasChanged();
+        }
+    }
+}

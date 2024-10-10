@@ -7,25 +7,24 @@ namespace BlazorJSComponents;
 internal class StaticJSHandler(
     string src,
     string? key,
-    string instanceId,
     bool mayBecomeInteractive,
+    UniqueIdAllocator uniqueIdAllocator,
     JsonSerializerOptions jsonSerializerOptions) : IJSHandler
 {
     private object?[]? _args;
-    private string? _argsScriptElementId;
 
     public void SetArgs(object?[]? args)
         => _args = args;
 
     public void Render(RenderTreeBuilder builder)
     {
+        var renderId = uniqueIdAllocator.GetNextId();
+
         if (_args is { Length: > 0 })
         {
             var argsJson = JsonSerializer.Serialize(_args, jsonSerializerOptions);
-
-            _argsScriptElementId ??= $"bl-args-{instanceId}";
             builder.OpenElement(0, "script");
-            builder.AddAttribute(1, "id", _argsScriptElementId);
+            builder.AddAttribute(1, "id", $"bl-args-{renderId}");
             builder.AddAttribute(2, "type", "application/json");
             builder.AddMarkupContent(3, argsJson);
             builder.CloseElement();
@@ -35,7 +34,7 @@ internal class StaticJSHandler(
         builder.AddAttribute(5, "src", src);
         builder.AddAttribute(6, "key", key);
         builder.AddAttribute(7, "int", mayBecomeInteractive);
-        builder.AddAttribute(8, "inst", instanceId);
+        builder.AddAttribute(8, "inst", renderId);
         builder.CloseElement();
     }
 

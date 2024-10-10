@@ -33,6 +33,12 @@ public sealed class JSElementReferenceScope
 {
     internal readonly string _id;
 
+    /// <summary>
+    /// Creates a new <see cref="JSElementReferenceScope"/>.
+    /// </summary>
+    public static JSElementReferenceScope Create()
+        => new(Guid.CreateVersion7().ToString("N"));
+
     internal JSElementReferenceScope(string id)
     {
         _id = id;
