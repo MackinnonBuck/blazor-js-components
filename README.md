@@ -8,7 +8,7 @@ This library enables the use of:
 Here are some of the main features:
 * Fetching/importing JavaScript dynamically
 * Optionally inferring the script path from a collocated JavaScript file
-* Defining ["JS components"](#javascript-components)
+* Defining ["JS components"](#js-components)
 
 ## Getting started
 
