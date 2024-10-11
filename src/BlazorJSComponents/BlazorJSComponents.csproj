@@ -9,6 +9,8 @@
     <Authors>MackinnonBuck</Authors>
     <Version>0.1.0-preview.1</Version>
     <RepositoryUrl>https://github.com/MackinnonBuck/blazor-js-components.git</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>embedded</DebugType>
@@ -28,6 +30,7 @@
 
   <ItemGroup>
     <_BlazorJSComponentsTasksAssemblies Include="..\BlazorJSComponents.Tasks\bin\$(Configuration)\netstandard2.0\*.dll" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="@(_BlazorJSComponentsTasksAssemblies)">
       <Pack>true</Pack>
       <PackagePath>tools\netstandard2.0\any</PackagePath>
@@ -40,9 +43,7 @@
   </ItemGroup>
 
   <Target Name="_ValidateBlazorJSComponentsTasksAssembliesDiscovered" AfterTargets="AfterBuild">
-    <Error
-      Text="The BlazorJSComponents.Tasks project must be built in the '$(Configuration)' configuration"
-      Condition="'@(_BlazorJSComponentsTasksAssemblies)' == ''" />
+    <Error Text="The BlazorJSComponents.Tasks project must be built in the '$(Configuration)' configuration" Condition="'@(_BlazorJSComponentsTasksAssemblies)' == ''" />
   </Target>
 
 </Project>
