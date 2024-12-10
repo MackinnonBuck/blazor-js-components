@@ -35,6 +35,7 @@ internal class StaticJSHandler(
         builder.AddAttribute(6, "key", key);
         builder.AddAttribute(7, "int", mayBecomeInteractive);
         builder.AddAttribute(8, "inst", renderId);
+        builder.AddAttribute(9, "style", "display: none; !important");
         builder.CloseElement();
     }
 
