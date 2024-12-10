@@ -15,7 +15,7 @@ Here are some of the main features:
 Start by installing the package from NuGet:
 
 ```sh
-dotnet add package BlazorJSComponents --prerelease
+dotnet add package BlazorJSComponents
 ```
 
 Next, in your Blazor app's `Program.cs`, add the required services:
