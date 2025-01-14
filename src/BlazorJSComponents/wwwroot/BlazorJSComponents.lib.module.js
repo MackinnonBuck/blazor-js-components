@@ -19,7 +19,7 @@ async function importJSComponent(src) {
 }
 
 export function beforeWebStart(options) {
-    if (!options.jsComponents?.disableGlobalProperties) {
+    if (!options?.jsComponents?.disableGlobalProperties) {
         // For convenience, allow the JS component type to be accessed globally.
         globalThis.BlazorJSComponents = {
             Component,
@@ -197,4 +197,12 @@ export function afterWebStarted(blazor) {
             }
         }
     });
+}
+
+export function afterStarted(blazor) {
+    afterWebStarted(blazor);
+}
+
+export function beforeStart(options) {
+    beforeWebStart(options);
 }
