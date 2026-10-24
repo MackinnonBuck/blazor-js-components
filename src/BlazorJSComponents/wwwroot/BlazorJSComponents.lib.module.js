@@ -1,4 +1,4 @@
-﻿import { Component } from '/_content/BlazorJSComponents/component.mjs';
+﻿import { Component } from './component.mjs';
 
 let nextJSComponentId = 1;
 const jsComponentsById = {};
